@@ -226,11 +226,11 @@ body{
  border-left: 3px solid rgba(250,204,21,0.7);
 }
 .exercise.difficulty-hard{
- border:1px solid rgba(76,201,240,0.35);
- background:rgba(76,201,240,0.06);
+ border:1px solid rgba(0,229,210,0.5);
+ background:rgba(0,229,210,0.07);
 }
 .exercise.difficulty-hard .exercise-header{
- border-left: 3px solid rgba(76,201,240,0.7);
+ border-left: 3px solid rgba(0,229,210,1);
 }
 
 .exercise-header{
@@ -3253,7 +3253,7 @@ body{
  <span style="font-size:0.85rem; color:var(--muted); font-weight:600; align-self:center;">Dificultad:</span>
  <span style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:#86efac;"><span style="width:12px;height:12px;border-radius:50%;background:rgba(74,222,128,0.7);display:inline-block;"></span>Fácil</span>
  <span style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:#fde047;"><span style="width:12px;height:12px;border-radius:50%;background:rgba(250,204,21,0.7);display:inline-block;"></span>Intermedio</span>
- <span style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:#7dd3fc;"><span style="width:12px;height:12px;border-radius:50%;background:rgba(76,201,240,0.7);display:inline-block;"></span>Difícil</span>
+ <span style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:#00e5d2;"><span style="width:12px;height:12px;border-radius:50%;background:rgba(0,229,210,1);display:inline-block;"></span>Difícil</span>
  </div>
 
  <!-- =====================================================
@@ -3346,6 +3346,17 @@ body{
    - Difícil:     class="exercise difficulty-hard"
  Si no se especifica dificultad, usar simplemente class="exercise" (estilo neutro).
  Este mismo sistema aplica también a las rutinas de Entrenamientos Complementarios.
+
+ ORDEN DE LAS SESIONES Y RUTINAS:
+ Las sesiones dentro de cada subcategoría deben estar siempre ordenadas por dificultad
+ de menor a mayor: primero Fácil, luego Intermedio, luego Difícil, y al final las que
+ no tienen dificultad asignada.
+ Si dos o más sesiones comparten la misma dificultad, se ordenan entre sí por volumen:
+   - En Entrenamientos de Natación: por metros totales (de menos a más).
+   - En Entrenamientos Complementarios: por número total de series/repeticiones
+     (sumando todas las repeticiones o series de la rutina, de menos a más).
+ Al insertar una nueva sesión o rutina, recolocar los bloques existentes si es necesario
+ para mantener este orden.
  -->
  <!-- SESIÓN 1 -->
  <div class="exercise difficulty-easy">
@@ -3377,6 +3388,40 @@ body{
  </div>
  </div>
  <!-- FIN SESIÓN 1 -->
+
+ <!-- SESIÓN 2 -->
+ <div class="exercise difficulty-hard">
+ <div class="exercise-header">
+ <div class="exercise-name">
+ <h3>Sesión de Crol - 3050m</h3>
+ <div class="tags">
+ <span class="tag">Crol</span>
+ <span class="tag">Estilos</span>
+ <span class="tag">Palas</span>
+ </div>
+ </div>
+ <div class="arrow">▼</div>
+ </div>
+ <div class="exercise-content">
+ <div class="exercise-description">
+ Realiza las series respetando los tiempos de salida y recuperación indicados:
+ </div>
+ <div class="exercise-objectives-box">
+ <div class="obj-label">📋 Series</div>
+ <ul>
+ <li><strong>300 m</strong> Estilos <small style="color:var(--muted);">— Espalda, Crol, Braza</small></li>
+ <li><strong>300 m</strong> Calentamiento técnico <small style="color:var(--muted);">— Intercalando patada de crol con tabla y brazadas con pullboy en las rodillas cada 50 m</small></li>
+ <li><strong>300 m</strong> Técnica <small style="color:var(--muted);">— Cada 25 m centrándonos en la técnica y 25 m nadando a ritmo</small></li>
+ <li><strong>15x100</strong> Crol <small style="color:var(--muted);">— Salida cada 1:50 · 10 primeras series con palas · 5 últimas sin palas</small></li>
+ <li><strong>8x25</strong> <small style="color:var(--muted);">— Salida cada 40s · Impares al ritmo de 100 m · Pares a ritmo ligero al estilo que se quiera</small></li>
+ <li><strong>4x50</strong> <small style="color:var(--muted);">— Salida cada 60s · Impares al ritmo de 100 m · Pares a ritmo ligero al estilo que se quiera</small></li>
+ <li><strong>2x75</strong> <small style="color:var(--muted);">— Salida cada 90s · Impares al ritmo de 200 m · Pares a ritmo ligero al estilo que se quiera</small></li>
+ <li><strong>100 m</strong> Vuelta a la calma <small style="color:var(--muted);">— Suave, al estilo que se quiera</small></li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ <!-- FIN SESIÓN 2 -->
 
  <!-- AÑADIR SESIONES AQUÍ -->
 
