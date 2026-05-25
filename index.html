@@ -205,9 +205,9 @@ body{
 }
 
 /* BAREMO DE DIFICULTAD — clases aplicables al div.exercise:
- .difficulty-easy    → verde  (fácil)
+ .difficulty-easy    → verde  (principiante)
  .difficulty-medium  → amarillo (intermedio)
- .difficulty-hard    → azul claro (difícil)
+ .difficulty-hard    → azul claro (avanzado)
  Si no se especifica dificultad, no se añade ninguna clase y el bloque
  mantiene el estilo predeterminado (fondo semitransparente neutro).
 */
@@ -271,11 +271,12 @@ body{
  font-size:0.72rem;
 }
 
+/* Flecha genérica — rota 180° cuando su contenedor tiene clase .open */
 .arrow{
- transition:0.3s;
+ transition:transform 0.3s;
 }
-
-.open .arrow{
+.open > .exercise-header > .arrow,
+.open > .category-header > .arrow {
  transform:rotate(180deg);
 }
 
@@ -3251,9 +3252,9 @@ body{
 
  <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:24px; padding:16px 20px; background:rgba(255,255,255,0.03); border-radius:14px; border:1px solid rgba(255,255,255,0.06);">
  <span style="font-size:0.85rem; color:var(--muted); font-weight:600; align-self:center;">Dificultad:</span>
- <span style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:#86efac;"><span style="width:12px;height:12px;border-radius:50%;background:rgba(74,222,128,0.7);display:inline-block;"></span>Fácil</span>
+ <span style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:#86efac;"><span style="width:12px;height:12px;border-radius:50%;background:rgba(74,222,128,0.7);display:inline-block;"></span>Principiante</span>
  <span style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:#fde047;"><span style="width:12px;height:12px;border-radius:50%;background:rgba(250,204,21,0.7);display:inline-block;"></span>Intermedio</span>
- <span style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:#00e5d2;"><span style="width:12px;height:12px;border-radius:50%;background:rgba(0,229,210,1);display:inline-block;"></span>Difícil</span>
+ <span style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:#00e5d2;"><span style="width:12px;height:12px;border-radius:50%;background:rgba(0,229,210,1);display:inline-block;"></span>Avanzado</span>
  </div>
 
  <!-- =====================================================
@@ -3341,15 +3342,15 @@ body{
 
  BAREMO DE DIFICULTAD:
  Añadir la clase correspondiente al div.exercise según la dificultad indicada:
-   - Fácil:       class="exercise difficulty-easy"
+   - Principiante:       class="exercise difficulty-easy"
    - Intermedio:  class="exercise difficulty-medium"
-   - Difícil:     class="exercise difficulty-hard"
+   - Avanzado:     class="exercise difficulty-hard"
  Si no se especifica dificultad, usar simplemente class="exercise" (estilo neutro).
  Este mismo sistema aplica también a las rutinas de Entrenamientos Complementarios.
 
  ORDEN DE LAS SESIONES Y RUTINAS:
  Las sesiones dentro de cada subcategoría deben estar siempre ordenadas por dificultad
- de menor a mayor: primero Fácil, luego Intermedio, luego Difícil, y al final las que
+ de menor a mayor: primero Principiante, luego Intermedio, luego Avanzado, y al final las que
  no tienen dificultad asignada.
  Si dos o más sesiones comparten la misma dificultad, se ordenan entre sí por volumen:
    - En Entrenamientos de Natación: por metros totales (de menos a más).
@@ -3390,6 +3391,37 @@ body{
  <!-- FIN SESIÓN 1 -->
 
  <!-- SESIÓN 2 -->
+ <div class="exercise difficulty-medium">
+ <div class="exercise-header">
+ <div class="exercise-name">
+ <h3>Sesión de Crol - 2000m</h3>
+ <div class="tags">
+ <span class="tag">Crol</span>
+ <span class="tag">Estilos</span>
+ <span class="tag">Mariposa</span>
+ <span class="tag">Espalda</span>
+ </div>
+ </div>
+ <div class="arrow">▼</div>
+ </div>
+ <div class="exercise-content">
+ <div class="exercise-description">
+ Realiza las series respetando los ritmos indicados:
+ </div>
+ <div class="exercise-objectives-box">
+ <div class="obj-label">📋 Series</div>
+ <ul>
+ <li><strong>300 m</strong> Estilos</li>
+ <li><strong>100 m</strong> Brazada de mariposa con pausas <small style="color:var(--muted);">— Recobro de braza</small></li>
+ <li><strong>1500 m</strong> Crol continuo <small style="color:var(--muted);">— Ritmo ~2:00/100 m</small></li>
+ <li><strong>100 m</strong> Espalda</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ <!-- FIN SESIÓN 2 -->
+
+ <!-- SESIÓN 3 (antes SESIÓN 2) -->
  <div class="exercise difficulty-hard">
  <div class="exercise-header">
  <div class="exercise-name">
@@ -3421,7 +3453,7 @@ body{
  </div>
  </div>
  </div>
- <!-- FIN SESIÓN 2 -->
+ <!-- FIN SESIÓN 3 -->
 
  <!-- AÑADIR SESIONES AQUÍ -->
 
@@ -3441,75 +3473,86 @@ body{
 
 <script>
 
-// 1. APARTADOS PRINCIPALES (Grandes bloques desplegables independientes)
+/* ============================================================
+ JAVASCRIPT — BIBLIOTECA DE LA NATACIÓN
+ Hay 3 niveles de desplegables anidados:
+   Nivel 1 → .biblioteca-apartado   (bloques grandes: Ejercicios, Entrenamientos…)
+   Nivel 2 → .category              (subgrupos: Espalda, Crol, Piernas…)
+   Nivel 3 → .exercise              (ficha individual de ejercicio o sesión)
+ Cada nivel tiene su propio listener. stopPropagation en niveles 2 y 3
+ evita que un click en un hijo dispare el handler del padre.
+ ============================================================ */
+
+// NIVEL 1 — Apartados principales
+// Abre/cierra los grandes bloques y rota su flecha .apartado-arrow
 document.querySelectorAll('.apartado-header').forEach(header => {
- header.addEventListener('click', () => {
- const apartado = header.parentElement;
- const content = apartado.querySelector('.apartado-content');
- 
- apartado.classList.toggle('apartado-open');
- content.style.display = content.style.display === 'block' ? 'none' : 'block';
- });
+  header.addEventListener('click', () => {
+    const apartado = header.parentElement;
+    const content = apartado.querySelector('.apartado-content');
+    apartado.classList.toggle('apartado-open');
+    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+  });
 });
 
-// 2. CATEGORÍAS (Desplegar/Colapsar subgrupos de músculos)
-document.querySelectorAll('.category-header').forEach(header=>{
- header.addEventListener('click',(e)=>{
- e.stopPropagation(); // Evita conflictos con el contenedor grande padre
- const category = header.parentElement;
- const content = category.querySelector('.category-content');
- category.classList.toggle('open');
- content.style.display = content.style.display === 'block' ? 'none' : 'block';
- });
+// NIVEL 2 — Categorías (subgrupos dentro de un apartado)
+// Abre/cierra el .category-content y rota su flecha .arrow
+document.querySelectorAll('.category-header').forEach(header => {
+  header.addEventListener('click', e => {
+    e.stopPropagation();
+    const category = header.parentElement;
+    const content = category.querySelector('.category-content');
+    category.classList.toggle('open');
+    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+  });
 });
 
-// 3. EJERCICIOS (Desplegar/Colapsar fichas de ejercicios individuales)
-document.querySelectorAll('.exercise-header').forEach(header=>{
- header.addEventListener('click',(e)=>{
- e.stopPropagation();
- const exercise = header.parentElement;
- const content = exercise.querySelector('.exercise-content');
- exercise.classList.toggle('open');
- content.style.display = content.style.display === 'block' ? 'none' : 'block';
- });
-});
+// NIVEL 3 — Ejercicios / Sesiones individuales
+// Abre/cierra el .exercise-content y rota su flecha .arrow
+// NOTA: se usa querySelectorAll en lugar de delegación para evitar
+// interferencias con stopPropagation del nivel 2.
+// Si se añaden ejercicios dinámicamente, llamar a bindExercises() de nuevo.
+function bindExercises() {
+  document.querySelectorAll('.exercise-header').forEach(header => {
+    if (header._bound) return; // evita duplicar listeners
+    header._bound = true;
+    header.addEventListener('click', e => {
+      e.stopPropagation();
+      const exercise = header.closest('.exercise');
+      const content = exercise.querySelector('.exercise-content');
+      exercise.classList.toggle('open');
+      content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    });
+  });
+}
+bindExercises();
 
-// 4. BUSCADOR INTELIGENTE EN EL APARTADO COMPLEMENTARIOS
+// BUSCADOR — Filtra ejercicios por nombre dentro de cada apartado
+// Muestra/oculta categorías enteras si no hay coincidencias
 document.querySelectorAll('.apartado-search-input').forEach(input => {
- input.addEventListener('input', () => {
- const term = input.value.toLowerCase();
- const apartado = input.closest('.biblioteca-apartado');
- 
- apartado.querySelectorAll('.category').forEach(category => {
- let matchingExercisesInContent = 0;
- const exercises = category.querySelectorAll('.exercise');
- 
- exercises.forEach(exercise => {
- const title = exercise.querySelector('h3').textContent.toLowerCase();
- if(title.includes(term)) {
- exercise.style.display = 'block';
- matchingExercisesInContent++;
- } else {
- exercise.style.display = 'none';
- }
- });
+  input.addEventListener('input', () => {
+    const term = input.value.toLowerCase();
+    const apartado = input.closest('.biblioteca-apartado');
 
- const content = category.querySelector('.category-content');
- if(term !== "") {
- if(matchingExercisesInContent > 0) {
- category.style.display = 'block';
- category.classList.add('open');
- content.style.display = 'block';
- } else {
- category.style.display = 'none';
- }
- } else {
- category.style.display = 'block';
- category.classList.remove('open');
- content.style.display = 'none';
- }
- });
- });
+    apartado.querySelectorAll('.category').forEach(category => {
+      let matches = 0;
+      category.querySelectorAll('.exercise').forEach(exercise => {
+        const title = exercise.querySelector('h3').textContent.toLowerCase();
+        const visible = title.includes(term);
+        exercise.style.display = visible ? 'block' : 'none';
+        if (visible) matches++;
+      });
+
+      const content = category.querySelector('.category-content');
+      if (term !== '') {
+        category.style.display = matches > 0 ? 'block' : 'none';
+        if (matches > 0) { category.classList.add('open'); content.style.display = 'block'; }
+      } else {
+        category.style.display = 'block';
+        category.classList.remove('open');
+        content.style.display = 'none';
+      }
+    });
+  });
 });
 
 </script>
