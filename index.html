@@ -270,6 +270,18 @@ body{
  border-radius:999px;
  font-size:0.72rem;
 }
+.tag.tag-easy{
+ background:rgba(74,222,128,0.18);
+ color:#86efac;
+}
+.tag.tag-medium{
+ background:rgba(250,204,21,0.18);
+ color:#fde68a;
+}
+.tag.tag-hard{
+ background:rgba(0,229,210,0.18);
+ color:#5eead4;
+}
 
 /* Flecha genérica — rota 180° cuando su contenedor tiene clase .open */
 .arrow{
@@ -3291,12 +3303,13 @@ body{
  </div>
  <div class="category-content">
 
- <!-- RUTINA 1 -->
- <div class="exercise">
+ <!-- RUTINA INTERMEDIA -->
+ <div class="exercise difficulty-medium">
  <div class="exercise-header">
  <div class="exercise-name">
  <h3>Rutina de Fuerza y Movilidad General</h3>
  <div class="tags">
+ <span class="tag">Intermedio</span>
  <span class="tag">Fuerza</span>
  <span class="tag">Movilidad</span>
  <span class="tag">Core</span>
@@ -3324,7 +3337,46 @@ body{
  </div>
  </div>
  </div>
- <!-- FIN RUTINA 1 -->
+ <!-- FIN RUTINA INTERMEDIA -->
+
+ <!-- RUTINA AVANZADA · Fuerza + Core + Movilidad -->
+ <div class="exercise difficulty-hard">
+ <div class="exercise-header">
+ <div class="exercise-name">
+ <h3>Rutina de Fuerza, Core y Movilidad Avanzada</h3>
+ <div class="tags">
+ <span class="tag">Avanzado</span>
+ <span class="tag">Fuerza</span>
+ <span class="tag">Core</span>
+ <span class="tag">Movilidad</span>
+ <span class="tag">Peso</span>
+ <span class="tag">Cardio</span>
+ </div>
+ </div>
+ <div class="arrow">▼</div>
+ </div>
+ <div class="exercise-content">
+ <div class="exercise-description">
+ Rutina de nivel avanzado que combina fuerza con carga, trabajo de core y movilidad específica para nadadores. Descansa 60–90 s entre series de fuerza y 30 s entre series de core.
+ </div>
+ <div class="exercise-objectives-box">
+ <div class="obj-label">📋 Lista de Ejercicios</div>
+ <ul>
+ <li><strong>3x10</strong> <a href="https://musclewiki.com/es-es/exercise/pull-up?model=m" target="_blank" style="color:var(--primary);text-decoration:underline;">Dominadas</a></li>
+ <li><strong>2x10</strong> <a href="https://musclewiki.com/es-es/exercise/hollow-hold?model=m" target="_blank" style="color:var(--primary);text-decoration:underline;">Abdominales con peso</a></li>
+ <li><strong>2x15</strong> <a href="https://musclewiki.com/es-es/exercise/superman?model=m" target="_blank" style="color:var(--primary);text-decoration:underline;">Superman</a></li>
+ <li><strong>2x20</strong> <a href="https://musclewiki.com/es-es/exercise/dumbbell-lunge?model=m" target="_blank" style="color:var(--primary);text-decoration:underline;">Zancadas con peso</a> <small style="color:var(--muted);">(10 por pierna)</small></li>
+ <li><strong>3x10</strong> <a href="https://musclewiki.com/es-es/exercise/pike-push-up?model=m" target="_blank" style="color:var(--primary);text-decoration:underline;">Flexiones verticales (Pike Push-Up)</a></li>
+ <li><strong>2x5 min</strong> <a href="https://musclewiki.com/es-es/exercise/jump-rope?model=m" target="_blank" style="color:var(--primary);text-decoration:underline;">Comba continua</a> <small style="color:var(--muted);">(Descanso 60 s entre bloques)</small></li>
+ <li><strong>2x20</strong> <a href="https://musclewiki.com/es-es/exercise/bodyweight-russian-twist?model=m" target="_blank" style="color:var(--primary);text-decoration:underline;">Giros oblicuos</a> <small style="color:var(--muted);">(10 por lado)</small></li>
+ <li><strong>2x10</strong> <a href="https://musclewiki.com/es-es/exercise/cobra-pose?model=m" target="_blank" style="color:var(--primary);text-decoration:underline;">Flexiones cobra</a></li>
+ <li><strong>20 x</strong> <a href="https://musclewiki.com/es-es/exercise/thoracic-flexion-and-extensions?model=m" target="_blank" style="color:var(--primary);text-decoration:underline;">Gato-vaca</a></li>
+ <li><strong>2 min</strong> <a href="https://i.ytimg.com/vi/OgqR8DkdGg0/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLD6jBm8ewHqczuTkPjgmMqcXHccMg" target="_blank" style="color:var(--primary);text-decoration:underline;">Extensiones de flexores de rodilla</a></li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ <!-- FIN RUTINA AVANZADA -->
 
  <!-- AÑADIR MÁS RUTINAS AQUÍ -->
 
@@ -3350,39 +3402,180 @@ body{
  <div class="category-content">
 
  <!--
- CONVENCIÓN DE NOMBRES PARA SESIONES DE NATACIÓN:
- El título de cada sesión debe seguir el formato:
- "Sesión de [Estilo predominante] - [Metros totales]m"
- Ejemplos: "Sesión de Crol - 1500m", "Sesión de Mariposa - 800m", "Sesión de Estilos - 2000m"
- El estilo predominante es aquel que acumula más metros en la sesión.
- Los metros totales se calculan sumando todos los metros de todas las series
- (multiplicando repeticiones × distancia en cada serie).
+ ╔══════════════════════════════════════════════════════════════════╗
+ ║       GUÍA PARA AÑADIR NUEVAS SESIONES DE NATACIÓN             ║
+ ╚══════════════════════════════════════════════════════════════════╝
 
- BAREMO DE DIFICULTAD:
- Añadir la clase correspondiente al div.exercise según la dificultad indicada:
-   - Principiante:       class="exercise"
-   - Intermedio:  class="exercise"
-   - Avanzado:     class="exercise"
- Si no se especifica dificultad, usar simplemente class="exercise" (estilo neutro).
- Este mismo sistema aplica también a las rutinas de Entrenamientos Complementarios.
+ ── 1. NOMBRE ────────────────────────────────────────────────────
+ Formato: "Sesión de [Estilo predominante] - [Metros totales]m"
+ El estilo predominante es el que acumula más metros en la sesión.
+ Los metros totales = suma de (repeticiones × distancia) de todas las series.
+ Ejemplos: "Sesión de Crol - 1500m", "Sesión de Estilos - 2000m"
 
- ORDEN DE LAS SESIONES Y RUTINAS:
- Las sesiones dentro de cada subcategoría deben estar siempre ordenadas por dificultad
- de menor a mayor: primero Principiante, luego Intermedio, luego Avanzado, y al final las que
- no tienen dificultad asignada.
- Si dos o más sesiones comparten la misma dificultad, se ordenan entre sí por volumen:
-   - En Entrenamientos de Natación: por metros totales (de menos a más).
-   - En Entrenamientos Complementarios: por número total de series/repeticiones
-     (sumando todas las repeticiones o series de la rutina, de menos a más).
- Al insertar una nueva sesión o rutina, recolocar los bloques existentes si es necesario
- para mantener este orden.
- -->
- <!-- SESIÓN 1 -->
- <div class="exercise">
+ ── 2. CLASE DE DIFICULTAD ───────────────────────────────────────
+ Aplicar al div.exercise la clase que corresponda:
+
+   Fácil (Principiante) → class="exercise difficulty-easy"
+   Intermedio           → class="exercise difficulty-medium"
+   Difícil (Avanzado)   → class="exercise difficulty-hard"
+
+ Añadir también la etiqueta de nivel en las tags de la sesión:
+   <span class="tag">Principiante</span>  /  Intermedio  /  Avanzado
+
+ ── 3. ORDEN DE INSERCIÓN ────────────────────────────────────────
+ Las sesiones SIEMPRE deben estar ordenadas:
+   1º Fácil      (difficulty-easy)   — de menos a más metros
+   2º Intermedio (difficulty-medium) — de menos a más metros
+   3º Difícil    (difficulty-hard)   — de menos a más metros
+
+ Al insertar una nueva sesión, recolocar los bloques existentes
+ si es necesario para respetar este orden.
+
+ ── 4. PLANTILLA ─────────────────────────────────────────────────
+ Copiar, rellenar y pegar en el lugar correcto según dificultad y metros:
+
+ <div class="exercise difficulty-[easy|medium|hard]">
+   <div class="exercise-header">
+     <div class="exercise-name">
+       <h3>Sesión de [Estilo] - [X]m</h3>
+       <div class="tags">
+         <span class="tag">[Principiante|Intermedio|Avanzado]</span>
+         <span class="tag">[Estilo1]</span>
+         <span class="tag">[Estilo2]</span>
+       </div>
+     </div>
+     <div class="arrow">▼</div>
+   </div>
+   <div class="exercise-content">
+     <div class="exercise-description">Descripción breve de la sesión.</div>
+     <div class="exercise-objectives-box">
+       <div class="obj-label">📋 Series</div>
+       <ul>
+         <li><strong>Xm</strong> Descripción <small style="color:var(--muted);">— Nota</small></li>
+       </ul>
+     </div>
+   </div>
+ </div>
+ ──────────────────────────────────────────────────────────────── -->
+ <!-- SESIÓN A — Principiante · ~900m -->
+ <div class="exercise difficulty-easy">
+ <div class="exercise-header">
+ <div class="exercise-name">
+ <h3>Sesión de Estilos - 900m</h3>
+ <div class="tags">
+ <span class="tag">Crol</span>
+ <span class="tag">Espalda</span>
+ <span class="tag">Braza</span>
+ <span class="tag">Mariposa</span>
+ <span class="tag">Aletas</span>
+ <span class="tag tag-easy">Principiante</span>
+ </div>
+ </div>
+ <div class="arrow">▼</div>
+ </div>
+ <div class="exercise-content">
+ <div class="exercise-description">
+ Sesión de iniciación a los cuatro estilos con aletas. Énfasis en la patada de delfín y la coordinación mariposa-braza.
+ </div>
+ <div class="exercise-objectives-box">
+ <div class="obj-label">📋 Series</div>
+ <ul>
+ <li><strong>250 m</strong> Calentamiento — alternando crol y espalda (5 largos de cada)</li>
+ <li><strong>100 m</strong> Recobro alejado con tabla en crol <small style="color:var(--muted);">— Llevar la mano a la esquina superior de la tabla en cada recobro</small></li>
+ <li><strong>100 m</strong> Espalda con brazo estirado a 90° <small style="color:var(--muted);">— Sin material; un brazo bien estirado fuera del agua marcando el rollillo, el otro pegado al cuerpo</small></li>
+ <li><strong>100 m</strong> Lateral con aletas <small style="color:var(--muted);">— Tronco en posición lateral, cadera y pies paralelos al suelo; a mitad de piscina cambiar de lado con una brazada grande</small></li>
+ <li><strong>50 m</strong> Patada de delfín con aletas <small style="color:var(--muted);">— Respirar realizando un impulso de mariposa con una mano</small></li>
+ <li><strong>50 m</strong> Patada de delfín de espaldas con aletas <small style="color:var(--muted);">— Brazos bien estirados arriba</small></li>
+ <li><strong>50 m</strong> Patada de delfín + brazos de braza con aletas <small style="color:var(--muted);">— Pies juntos; 1 brazada · 2-3 patadas</small></li>
+ <li><strong>100 m</strong> Braza sin aletas <small style="color:var(--muted);">— Énfasis en el deslizamiento y la coordinación</small></li>
+ <li><strong>Vuelta a la calma</strong> Patada de braza de espaldas</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ <!-- FIN SESIÓN A -->
+
+ <!-- SESIÓN B — Principiante · ~1100m -->
+ <div class="exercise difficulty-easy">
+ <div class="exercise-header">
+ <div class="exercise-name">
+ <h3>Sesión de Crol - 1100m</h3>
+ <div class="tags">
+ <span class="tag">Crol</span>
+ <span class="tag">Espalda</span>
+ <span class="tag">Subacuático</span>
+ <span class="tag">Aletas</span>
+ <span class="tag tag-easy">Principiante</span>
+ </div>
+ </div>
+ <div class="arrow">▼</div>
+ </div>
+ <div class="exercise-content">
+ <div class="exercise-description">
+ Sesión de principiante centrada en el rodillo y la rotación de crol y espalda. Se trabaja también la patada subacuática con aletas al final.
+ </div>
+ <div class="exercise-objectives-box">
+ <div class="obj-label">📋 Series</div>
+ <ul>
+ <li><strong>250 m</strong> Calentamiento libre</li>
+ <li><strong>100 m</strong> Ejercicio de rodillo en crol <small style="color:var(--muted);">— Brazos pegados al cuerpo; a lo largo del largo ir rotando un hombro hasta posición de espalda y volver. A la ida hacia un lado, a la vuelta hacia el otro. Pies mirando al suelo el máximo tiempo posible</small></li>
+ <li><strong>100 m</strong> Rodillo de espalda <small style="color:var(--muted);">— Quedarse a 90° sacando el hombro lo máximo posible; cambiar lentamente al otro hombro</small></li>
+ <li><strong>100 m</strong> Rodillo de crol con brazo en triángulo <small style="color:var(--muted);">— Mantener un hombro fuera del agua con la mano tocando la oreja; cada 5 s cambiar de brazo con el recobro lo más alejado posible; el otro brazo se queda adelante</small></li>
+ <li><strong>100 m</strong> Patada de delfín + crol a tope <small style="color:var(--muted);">— Con aletas: máximas patadas subacuáticas posibles, luego crol a máxima velocidad hasta el final</small></li>
+ <li><strong>100 m</strong> Patada de delfín + espalda a tope <small style="color:var(--muted);">— Igual que el anterior pero de espaldas</small></li>
+ <li><strong>100 m</strong> Patada de delfín + brazos de braza <small style="color:var(--muted);">— Combinar ambos estilos para introducir la coordinación de mariposa (1 brazada · 2-3 patadas)</small></li>
+ <li><strong>Vuelta a la calma</strong> Buceo con aletas (máximos metros sin respirar) · 100 m espalda con aletas · 50 m espalda sin aletas</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ <!-- FIN SESIÓN B -->
+
+ <!-- SESIÓN C — Principiante · ~1250m -->
+ <div class="exercise difficulty-easy">
+ <div class="exercise-header">
+ <div class="exercise-name">
+ <h3>Sesión de Crol - 1250m</h3>
+ <div class="tags">
+ <span class="tag">Crol</span>
+ <span class="tag">Espalda</span>
+ <span class="tag">Braza</span>
+ <span class="tag">Mariposa</span>
+ <span class="tag">Pull</span>
+ <span class="tag tag-easy">Principiante</span>
+ </div>
+ </div>
+ <div class="arrow">▼</div>
+ </div>
+ <div class="exercise-content">
+ <div class="exercise-description">
+ Sesión de principiante orientada a trabajar por separado piernas y brazos en los cuatro estilos con material de flotación (pull y tabla).
+ </div>
+ <div class="exercise-objectives-box">
+ <div class="obj-label">📋 Series</div>
+ <ul>
+ <li><strong>300 m</strong> Calentamiento libre</li>
+ <li><strong>150 m</strong> Patada de crol con tabla</li>
+ <li><strong>100 m</strong> Solo brazos de espalda con pull</li>
+ <li><strong>100 m</strong> Patada de espalda con tabla</li>
+ <li><strong>100 m</strong> Solo brazos de crol con pull</li>
+ <li><strong>100 m</strong> Brazos de braza con pull</li>
+ <li><strong>100 m</strong> Brazos de mariposa con pull (ida) + vuelta de espaldas con pull (vuelta)</li>
+ <li><strong>Vuelta a la calma</strong></li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ <!-- FIN SESIÓN C -->
+
+
+ <!-- ── FÁCIL · 1150 m ── -->
+ <div class="exercise difficulty-easy">
  <div class="exercise-header">
  <div class="exercise-name">
  <h3>Sesión de Crol - 1150m</h3>
  <div class="tags">
+ <span class="tag">Principiante</span>
  <span class="tag">Crol</span>
  <span class="tag">Espalda</span>
  <span class="tag">Subacuático</span>
@@ -3406,14 +3599,89 @@ body{
  </div>
  </div>
  </div>
- <!-- FIN SESIÓN 1 -->
+ <!-- FIN FÁCIL · 1150 m -->
 
- <!-- SESIÓN 2 -->
- <div class="exercise">
+ <!-- SESIÓN D — Principiante · ~1600m (series por tiempo) -->
+ <div class="exercise difficulty-easy">
+ <div class="exercise-header">
+ <div class="exercise-name">
+ <h3>Sesión de Crol - 1600m</h3>
+ <div class="tags">
+ <span class="tag">Crol</span>
+ <span class="tag">Espalda</span>
+ <span class="tag">Ritmo óptimo</span>
+ <span class="tag">Pull</span>
+ <span class="tag tag-easy">Principiante</span>
+ </div>
+ </div>
+ <div class="arrow">▼</div>
+ </div>
+ <div class="exercise-content">
+ <div class="exercise-description">
+ Sesión de principiante por tiempo basada en encontrar el ritmo óptimo: ni tan lento que te aburras, ni tan rápido que te fatigues. El objetivo es mantener una cadencia sostenible a lo largo de toda la sesión.
+ </div>
+ <div class="exercise-objectives-box">
+ <div class="obj-label">📋 Series</div>
+ <ul>
+ <li><strong>300 m</strong> Calentamiento libre</li>
+ <li><strong>6 min</strong> Patada de crol con colchoneta de agujeros <small style="color:var(--muted);">— Ritmo óptimo: ni cansado por ir despacio ni por ir rápido</small></li>
+ <li><strong>7 min</strong> Patada de espalda con tabla y brazos estirados arriba <small style="color:var(--muted);">— Mismo objetivo de ritmo</small></li>
+ <li><strong>8 min</strong> Solo brazos de crol con pull en piernas <small style="color:var(--muted);">— Mismo objetivo de ritmo</small></li>
+ <li><strong>8 min</strong> Brazos de espalda con pull en piernas <small style="color:var(--muted);">— Mismo objetivo de ritmo</small></li>
+ <li><strong>6 min</strong> Crol a ritmo óptimo</li>
+ <li><strong>4 min</strong> Espalda a ritmo óptimo</li>
+ <li><strong>200 m</strong> Vuelta a la calma — alternar crol y espalda cada medio largo a ritmo óptimo</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ <!-- FIN SESIÓN D -->
+
+
+ <!-- ── INTERMEDIO · 1350 m ── -->
+ <div class="exercise difficulty-medium">
+ <div class="exercise-header">
+ <div class="exercise-name">
+ <h3>Sesión de Crol - 1350m</h3>
+ <div class="tags">
+ <span class="tag">Intermedio</span>
+ <span class="tag">Crol</span>
+ <span class="tag">Espalda</span>
+ <span class="tag">Técnica</span>
+ <span class="tag">Deslizamiento</span>
+ </div>
+ </div>
+ <div class="arrow">▼</div>
+ </div>
+ <div class="exercise-content">
+ <div class="exercise-description">
+ Sesión de nivel intermedio que trabaja la técnica de crol y espalda con el brazo suspendido, seguida de series de intensidad media-alta para afianzar la eficiencia y el deslizamiento.
+ </div>
+ <div class="exercise-objectives-box">
+ <div class="obj-label">📋 Series</div>
+ <ul>
+ <li><strong>300 m</strong> Calentamiento libre</li>
+ <li><strong>100 m</strong> Crol con brazo suspendido <small style="color:var(--muted);">— Un brazo en horizontal; impulsarse solo con el otro sin hundir el suspendido y manteniendo la máxima horizontalidad. A la ida un brazo, a la vuelta el otro. Deslizar</small></li>
+ <li><strong>100 m</strong> Espalda con un brazo arriba <small style="color:var(--muted);">— Impulsarse con un solo brazo mientras el otro permanece estirado arriba durante los 25 m; cambiar de brazo en cada largo</small></li>
+ <li><strong>200 m</strong> Crol a intensidad media-alta</li>
+ <li><strong>200 m</strong> Espalda a intensidad media-alta <small style="color:var(--muted);">— Coordinación de brazos eficiente</small></li>
+ <li><strong>200 m</strong> Crol con mínimas brazadas <small style="color:var(--muted);">— Intensidad baja; deslizar lo máximo posible intentando reducir el número de brazadas por largo</small></li>
+ <li><strong>150 m</strong> Espalda deslizando <small style="color:var(--muted);">— Igual que el anterior pero de espalda</small></li>
+ <li><strong>100 m</strong> Crol mixto <small style="color:var(--muted);">— 25 m al 100% + 25 m lo más lento posible; repetir</small></li>
+ <li><strong>100 m</strong> Vuelta a la calma — braza de espaldas</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ <!-- FIN INTERMEDIO · 1350 m -->
+
+ <!-- ── INTERMEDIO · 2000 m ── -->
+ <div class="exercise difficulty-medium">
  <div class="exercise-header">
  <div class="exercise-name">
  <h3>Sesión de Crol - 2000m</h3>
  <div class="tags">
+ <span class="tag">Intermedio</span>
  <span class="tag">Crol</span>
  <span class="tag">Estilos</span>
  <span class="tag">Mariposa</span>
@@ -3437,14 +3705,15 @@ body{
  </div>
  </div>
  </div>
- <!-- FIN SESIÓN 2 -->
+ <!-- FIN INTERMEDIO · 2000 m -->
 
- <!-- SESIÓN 3 (antes SESIÓN 2) -->
- <div class="exercise">
+ <!-- ── DIFÍCIL · 3050 m ── -->
+ <div class="exercise difficulty-hard">
  <div class="exercise-header">
  <div class="exercise-name">
  <h3>Sesión de Crol - 3050m</h3>
  <div class="tags">
+ <span class="tag">Avanzado</span>
  <span class="tag">Crol</span>
  <span class="tag">Estilos</span>
  <span class="tag">Palas</span>
@@ -3471,7 +3740,7 @@ body{
  </div>
  </div>
  </div>
- <!-- FIN SESIÓN 3 -->
+ <!-- FIN DIFÍCIL · 3050 m -->
 
  <!-- AÑADIR SESIONES AQUÍ -->
 
