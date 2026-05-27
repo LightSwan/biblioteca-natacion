@@ -9,6 +9,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="favicon.ico">
+<meta name="theme-color" content="#07111f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Biblioteca Natación">
+<link rel="manifest" id="pwa-manifest">
 <style>
 
 *{
@@ -3771,6 +3777,21 @@ body{
  &copy; Biblioteca de la Natación - Espacio de Recursos Interactivos · Creado por <a href="https://www.instagram.com/kevinlight.nature/" target="_blank" style="color:var(--primary);text-decoration:underline;">Kevin</a> 🏊‍♂️
  </footer>
 
+ <!-- Botón instalar PWA -->
+ <div style="text-align:center;padding:32px 24px 48px;">
+   <button id="pwaInstallBtn" style="display:none;align-items:center;gap:10px;padding:14px 28px;border-radius:999px;border:none;background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;box-shadow:0 0 0 0 rgba(99,102,241,0.5);animation:pwaGlow 2s infinite;letter-spacing:0.01em;"
+     onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 30px rgba(99,102,241,0.6)';this.style.animation='none'"
+     onmouseout="this.style.transform='';this.style.boxShadow='';this.style.animation='pwaGlow 2s infinite'">
+     📲 Añadir app a pantalla de inicio
+   </button>
+ </div>
+ <style>
+   @keyframes pwaGlow {
+     0%,100% { box-shadow: 0 0 0 0 rgba(99,102,241,0.5), 0 4px 20px rgba(14,165,233,0.4); }
+     50%      { box-shadow: 0 0 0 8px rgba(99,102,241,0),  0 4px 20px rgba(14,165,233,0.4); }
+   }
+ </style>
+
 </div>
 
 <script>
@@ -3857,6 +3878,89 @@ document.querySelectorAll('.apartado-search-input').forEach(input => {
   });
 });
 
+</script>
+
+<script>
+// ── PWA: Manifest + Service Worker + Botón de instalación ──
+(function(){
+  const manifest = {
+    name: "Biblioteca de la Natación",
+    short_name: "Natación",
+    description: "Espacio de Recursos Interactivos para Natación",
+    start_url: "./",
+    display: "standalone",
+    background_color: "#07111f",
+    theme_color: "#07111f",
+    orientation: "portrait-primary",
+    icons: [
+      { src:"https://lightswan.github.io/biblioteca-natacion/logo.png", sizes:"512x512", type:"image/png", purpose:"any maskable" }
+    ]
+  };
+  const mBlob = new Blob([JSON.stringify(manifest)], {type:"application/json"});
+  document.getElementById("pwa-manifest").href = URL.createObjectURL(mBlob);
+
+  if("serviceWorker" in navigator){
+    const swCode = `
+      self.addEventListener("install", e => self.skipWaiting());
+      self.addEventListener("activate", e => e.waitUntil(clients.claim()));
+      self.addEventListener("fetch", e => e.respondWith(fetch(e.request).catch(() => new Response(""))));
+    `;
+    const swBlob = new Blob([swCode], {type:"application/javascript"});
+    navigator.serviceWorker.register(URL.createObjectURL(swBlob), {scope:"./"})
+      .catch(err => console.warn("SW:", err));
+  }
+})();
+
+(function(){
+  const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  let deferredPrompt = null;
+
+  const btn = document.getElementById("pwaInstallBtn");
+  if(!isStandalone) btn.style.display = "inline-flex";
+
+  function handleClick(){
+    if(deferredPrompt){
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(({outcome}) => {
+        if(outcome === "accepted") btn.style.display = "none";
+        deferredPrompt = null;
+      });
+      return;
+    }
+    if(isIOS){
+      const o = document.createElement("div");
+      o.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;display:flex;align-items:flex-end;justify-content:center;padding:20px;";
+      o.innerHTML = `
+        <div style="background:#1e293b;border:1px solid #334155;border-radius:20px;padding:24px;max-width:360px;width:100%;text-align:center;margin-bottom:16px;">
+          <div style="font-size:36px;margin-bottom:12px;">📲</div>
+          <div style="font-size:17px;font-weight:700;color:#f8fafc;margin-bottom:10px;">Añadir a la pantalla de inicio</div>
+          <div style="font-size:14px;color:#94a3b8;line-height:1.6;margin-bottom:16px;">
+            1. Pulsa el botón <strong style="color:#38bdf8;">Compartir</strong> <span style="font-size:18px;">⎙</span> en la barra de Safari<br>
+            2. Desplázate y toca <strong style="color:#38bdf8;">"Añadir a pantalla de inicio"</strong>
+          </div>
+          <button onclick="this.closest('div[style*=\\"inset:0\\"]').remove()" style="width:100%;padding:12px;border-radius:12px;border:none;background:#38bdf8;color:#001018;font-weight:700;font-size:15px;cursor:pointer;">Entendido</button>
+        </div>`;
+      document.body.appendChild(o);
+      o.addEventListener("click", e => { if(e.target===o) o.remove(); });
+    } else {
+      btn.style.display = "none";
+    }
+  }
+
+  btn.addEventListener("click", handleClick);
+
+  window.addEventListener("beforeinstallprompt", e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if(!isStandalone) btn.style.display = "inline-flex";
+  });
+
+  window.addEventListener("appinstalled", () => {
+    btn.style.display = "none";
+    deferredPrompt = null;
+  });
+})();
 </script>
 
 </body>
