@@ -5,11 +5,26 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Biblioteca de la Natación</title>
+<script>
+// Aplica el tema guardado ANTES de pintar la página, para evitar el
+// parpadeo (flash) al cargar. Por defecto el sitio se muestra en modo
+// oscuro; solo pasa a claro si el usuario lo eligió explícitamente antes.
+(function(){
+ try{
+  var saved = localStorage.getItem('biblioteca-theme');
+  if(saved !== 'light'){
+   document.documentElement.setAttribute('data-theme','dark');
+  }
+ }catch(e){
+  document.documentElement.setAttribute('data-theme','dark');
+ }
+})();
+</script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link href="favicon.ico" rel="icon" type="image/x-icon"/>
 <link href="favicon.ico" rel="apple-touch-icon"/>
-<meta content="#07111f" name="theme-color"/>
+<meta content="#f2f7f2" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="Biblioteca Natación" name="apple-mobile-web-app-title"/>
@@ -20,9 +35,32 @@
  margin:0;
  padding:0;
  box-sizing:border-box;
+ -webkit-tap-highlight-color: transparent;
+ -webkit-touch-callout: none;
+}
+
+html{
+ -webkit-tap-highlight-color: transparent;
 }
 
 :root{
+ --bg:#f2f7f2;
+ --card:#ffffff;
+ --card2:#eaf3ec;
+ --primary:#3f8f6f;
+ --secondary:#c98a4b;
+ --text:#2b3a32;
+ --muted:#7f9188;
+ --border:rgba(43,58,50,0.1);
+}
+
+/* ==========================================================================
+ MODO OSCURO
+ Se activa añadiendo el atributo data-theme="dark" a <html> (ver botón
+ y script al final del documento). Usa la misma paleta azul del diseño
+ original de la Biblioteca de la Natación.
+ ========================================================================== */
+html[data-theme="dark"]{
  --bg:#07111f;
  --card:#101d2e;
  --card2:#13243a;
@@ -33,11 +71,110 @@
  --border:rgba(255,255,255,0.08);
 }
 
-body{
- font-family:'Poppins', sans-serif;
+html[data-theme="dark"] body{
  background:
  radial-gradient(circle at top left,#1d4ed8 0%, transparent 30%),
  radial-gradient(circle at bottom right,#06b6d4 0%, transparent 25%),
+ var(--bg);
+}
+
+html[data-theme="dark"] .biblioteca-apartado{
+ box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+html[data-theme="dark"] .category-header:hover{
+ background: rgba(76,201,240,0.08);
+}
+
+html[data-theme="dark"] .exercise-header:hover{
+ background: rgba(76,201,240,0.06);
+}
+
+html[data-theme="dark"] .exercise.difficulty-easy{
+ border-color: rgba(74,222,128,0.4);
+ background: rgba(74,222,128,0.05);
+}
+html[data-theme="dark"] .exercise.difficulty-medium{
+ border-color: rgba(250,204,21,0.4);
+ background: rgba(250,204,21,0.05);
+}
+html[data-theme="dark"] .exercise.difficulty-hard{
+ border-color: rgba(56,189,248,0.4);
+ background: rgba(56,189,248,0.07);
+}
+html[data-theme="dark"] .exercise.difficulty-hard .exercise-header{
+ border-left-color: #38bdf8;
+}
+
+html[data-theme="dark"] .tag{
+ background: rgba(76,201,240,0.14);
+ color: #9fe0f7;
+}
+html[data-theme="dark"] .tag.tag-easy{ background: rgba(74,222,128,0.18); color: #9ef2b8; }
+html[data-theme="dark"] .tag.tag-medium{ background: rgba(250,204,21,0.18); color: #fce49a; }
+html[data-theme="dark"] .tag.tag-hard{ background: rgba(56,189,248,0.2); color: #a8e6fa; }
+html[data-theme="dark"] .tag.tag-static{ background: rgba(167,139,250,0.2); color: #d3c2fb; }
+html[data-theme="dark"] .tag.tag-implement{ background: rgba(251,146,60,0.2); color: #fdc89b; }
+
+html[data-theme="dark"] .btn-secondary:hover{
+ background: #16283e;
+}
+
+html[data-theme="dark"] .btn-primary{
+ box-shadow: 0 5px 16px rgba(76,201,240,0.25);
+}
+
+html[data-theme="dark"] .search input:focus{
+ background: var(--card);
+}
+
+/* Botón de cambio de tema — al final de la página, centrado, sin
+   posición fija para no tapar contenido mientras se hace scroll */
+.theme-toggle{
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 10px;
+ margin: 10px auto 0;
+ padding: 14px 28px;
+ border-radius: 999px;
+ border: 1px solid var(--border);
+ background: var(--card);
+ color: var(--text);
+ font-size: 0.95rem;
+ font-weight: 700;
+ font-family: 'Sora', sans-serif;
+ cursor: pointer;
+ box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+ transition: 0.25s;
+}
+.theme-toggle:hover{
+ transform: translateY(-2px);
+ border-color: var(--primary);
+ box-shadow: 0 8px 22px rgba(0,0,0,0.16);
+}
+.theme-toggle .icon-sun{ display:none; font-size:1.15rem; }
+.theme-toggle .icon-moon{ display:inline; font-size:1.15rem; }
+.theme-toggle .label-to-dark{ display:inline; }
+.theme-toggle .label-to-light{ display:none; }
+html[data-theme="dark"] .theme-toggle .icon-sun{ display:inline; }
+html[data-theme="dark"] .theme-toggle .icon-moon{ display:none; }
+html[data-theme="dark"] .theme-toggle .label-to-dark{ display:none; }
+html[data-theme="dark"] .theme-toggle .label-to-light{ display:inline; }
+.theme-toggle-wrap{
+ display: flex;
+ justify-content: center;
+ padding: 8px 24px 0;
+}
+
+@media(max-width:600px){
+ .theme-toggle{ padding: 12px 22px; font-size: 0.88rem; }
+}
+
+body{
+ font-family:'Sora', sans-serif;
+ background:
+ radial-gradient(circle at top left,#e3f0e6 0%, transparent 45%),
  var(--bg);
  color:var(--text);
  min-height:100vh;
@@ -49,95 +186,114 @@ body{
  margin:auto;
 }
 
-/* Encabezado Principal de la Biblioteca */
 .main-header{
  text-align:center;
- margin-bottom:60px;
+ margin-bottom:56px;
 }
 
 .main-header h1{
- font-size:3.5rem;
- font-weight:700;
- color:white;
- margin-bottom:12px;
- letter-spacing: -0.02em;
+ font-family:'Sora', sans-serif;
+ font-size:3.8rem;
+ font-weight:600;
+ color:var(--text);
+ margin-bottom:10px;
+ letter-spacing: 0.01em;
 }
 
 .main-header p{
  color:var(--primary);
- font-size:1.2rem;
- font-weight: 500;
+ font-size:0.95rem;
+ font-weight: 600;
  text-transform: uppercase;
- letter-spacing: 2px;
+ letter-spacing: 3px;
 }
 
-/* ==========================================================================
- ESTRUCTURA DE APARTADOS PRINCIPALES (Grandes Desplegables)
- ========================================================================== */
-
 .biblioteca-apartado {
- background: rgba(16, 29, 46, 0.4);
- border: 1px solid rgba(255,255,255,0.05);
- border-radius: 32px;
- margin-bottom: 30px;
- backdrop-filter: blur(20px);
- box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+ background: var(--card);
+ border: 1px solid var(--border);
+ border-radius: 22px;
+ margin-bottom: 24px;
+ box-shadow: 0 10px 28px rgba(63,143,111,0.08);
  overflow: hidden;
  transition: 0.3s ease;
 }
 
 .apartado-header {
- padding: 35px 40px;
+ padding: 30px 36px;
  display: flex;
- justify-content: space-between;
+ justify-content: center;
  align-items: center;
+ position: relative;
  cursor: pointer;
  transition: background 0.3s;
+ -webkit-tap-highlight-color: transparent;
+ outline: none;
+ user-select: none;
+ -webkit-user-select: none;
+ touch-action: manipulation;
 }
 
 .apartado-header:hover {
- background: rgba(255, 255, 255, 0.02);
+ background: var(--card2);
+}
+
+.apartado-header-title {
+ text-align: center;
 }
 
 .apartado-header-title h2 {
- font-size: 2.1rem;
- font-weight: 700;
- color: #ffffff;
+ font-family:'Sora', sans-serif;
+ font-size: 1.9rem;
+ font-weight: 600;
+ color: var(--text);
 }
 
 .apartado-header-title p {
  color: var(--primary);
- font-size: 0.95rem;
+ font-size: 0.92rem;
  margin-top: 4px;
  font-weight: 500;
 }
 
 .apartado-arrow {
- font-size: 1.5rem;
+ font-size: 1.4rem;
  color: var(--muted);
  transition: transform 0.3s, color 0.3s;
+ position: absolute;
+ right: 36px;
+ top: 50%;
+ transform: translateY(-50%);
 }
 
-/* Estado abierto del apartado principal */
+.apartado-arrow-left {
+ right: auto;
+ left: 36px;
+}
+
 .biblioteca-apartado.apartado-open .apartado-arrow {
- transform: rotate(180deg);
+ transform: translateY(-50%) rotate(180deg);
  color: var(--primary);
 }
 
 .apartado-content {
- display: none; /* Inicialmente cerrado */
- padding: 10px 40px 40px 40px;
- border-top: 1px solid rgba(255, 255, 255, 0.03);
+ max-height: 0;
+ opacity: 0;
+ overflow: hidden;
+ padding: 0 36px;
+ border-top: 0px solid var(--border);
+ transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease, padding 0.45s cubic-bezier(0.4,0,0.2,1), border-top-width 0.45s cubic-bezier(0.4,0,0.2,1);
 }
 
-/* ==========================================================================
- ESTILOS INTERNOS DE LOS SUB-APARTADOS (Buscador, Categorías y Ejercicios)
- ========================================================================== */
+.biblioteca-apartado.apartado-open .apartado-content {
+ opacity: 1;
+ padding: 10px 36px 36px 36px;
+ border-top-width: 1px;
+}
 
 .topbar{
  display:flex;
  justify-content:center;
- margin-bottom:35px;
+ margin-bottom:30px;
  margin-top: 15px;
 }
 
@@ -149,106 +305,113 @@ body{
 
 .search input{
  width:100%;
- padding:16px 20px;
- border:none;
- border-radius:16px;
- background:rgba(255,255,255,0.08);
- color:white;
+ padding:14px 20px;
+ border:1px solid var(--border);
+ border-radius:999px;
+ background:var(--card2);
+ color:var(--text);
  outline:none;
- font-size:1rem;
- font-family:'Poppins', sans-serif;
- border:1px solid rgba(255,255,255,0.08);
- backdrop-filter: blur(10px);
+ font-size:0.98rem;
+ font-family:'Sora', sans-serif;
+}
+
+.search input:focus{
+ border-color: var(--primary);
 }
 
 .search input::placeholder{
- color:#b6c2d1;
+ color:var(--muted);
 }
 
 .category{
- background:rgba(255,255,255,0.05);
- border:1px solid rgba(255,255,255,0.08);
- border-radius:24px;
- margin-bottom:25px;
+ background:var(--card2);
+ border:1px solid var(--border);
+ border-radius:18px;
+ margin-bottom:18px;
  overflow:hidden;
- backdrop-filter:blur(16px);
- box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
 
 .category-header{
- padding:24px 28px;
- display:flex;
- justify-content:space-between;
- align-items:center;
- cursor:pointer;
- transition:0.3s;
-}
-
-.category-header:hover{
- background:rgba(255,255,255,0.04);
-}
-
-.category-title{
- display:flex;
- align-items:center;
- gap:14px;
- font-size:1.4rem;
- font-weight:600;
-}
-
-.category-content{
- display:none;
- padding:0 20px 20px;
-}
-
-.exercise{
- background:rgba(255,255,255,0.04);
- border-radius:18px;
- overflow:hidden;
- margin-bottom:16px;
- border:1px solid rgba(255,255,255,0.06);
-}
-
-/* BAREMO DE DIFICULTAD — clases aplicables al div.exercise:
- .difficulty-easy    → verde  (principiante)
- .difficulty-medium  → amarillo (intermedio)
- .difficulty-hard    → azul claro (avanzado)
- Si no se especifica dificultad, no se añade ninguna clase y el bloque
- mantiene el estilo predeterminado (fondo semitransparente neutro).
-*/
-.exercise.difficulty-easy{
- border:1px solid rgba(74,222,128,0.35);
- background:rgba(74,222,128,0.06);
-}
-.exercise.difficulty-easy .exercise-header{
- border-left: 3px solid rgba(74,222,128,0.7);
-}
-.exercise.difficulty-medium{
- border:1px solid rgba(250,204,21,0.35);
- background:rgba(250,204,21,0.06);
-}
-.exercise.difficulty-medium .exercise-header{
- border-left: 3px solid rgba(250,204,21,0.7);
-}
-.exercise.difficulty-hard{
- border:1px solid rgba(0,229,210,0.5);
- background:rgba(0,229,210,0.07);
-}
-.exercise.difficulty-hard .exercise-header{
- border-left: 3px solid rgba(0,229,210,1);
-}
-
-.exercise-header{
- padding:18px 20px;
+ padding:19px 22px;
  display:flex;
  justify-content:space-between;
  align-items:center;
  cursor:pointer;
  transition:0.25s;
+ -webkit-tap-highlight-color: transparent;
+ outline: none;
+ user-select: none;
+ -webkit-user-select: none;
+ touch-action: manipulation;
+}
+
+.category-header:hover{
+ background:rgba(63,143,111,0.06);
+}
+
+.category-title{
+ display:flex;
+ align-items:center;
+ gap:12px;
+ font-family:'Sora', sans-serif;
+ font-size:1.3rem;
+ font-weight:600;
+ color:var(--text);
+}
+
+.category-content{
+ max-height: 0;
+ opacity: 0;
+ overflow: hidden;
+ padding: 0 18px;
+ transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease, padding 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+.category.open > .category-content{
+ opacity: 1;
+ padding: 0 18px 18px;
+}
+
+.exercise{
+ background:var(--card);
+ border-radius:14px;
+ overflow:hidden;
+ margin-bottom:12px;
+ border:1px solid var(--border);
+}
+
+.exercise.difficulty-easy{
+ border:1px solid rgba(74,222,128,0.4);
+ background:rgba(74,222,128,0.06);
+}
+.exercise.difficulty-easy .exercise-header{ border-left: 4px solid #4ade80; }
+.exercise.difficulty-medium{
+ border:1px solid rgba(250,204,21,0.4);
+ background:rgba(250,204,21,0.07);
+}
+.exercise.difficulty-medium .exercise-header{ border-left: 4px solid #eab308; }
+.exercise.difficulty-hard{
+ border:1px solid rgba(56,189,248,0.4);
+ background:rgba(56,189,248,0.06);
+}
+.exercise.difficulty-hard .exercise-header{ border-left: 4px solid #38bdf8; }
+
+.exercise-header{
+ padding:16px 19px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ cursor:pointer;
+ transition:0.2s;
+ -webkit-tap-highlight-color: transparent;
+ outline: none;
+ user-select: none;
+ -webkit-user-select: none;
+ touch-action: manipulation;
 }
 
 .exercise-header:hover{
- background:rgba(255,255,255,0.05);
+ background:rgba(63,143,111,0.04);
 }
 
 .exercise-name{
@@ -258,267 +421,237 @@ body{
 }
 
 .exercise-name h3{
- font-size:1.05rem;
- font-weight:600;
+ font-size:1rem;
+ font-weight:700;
+ color:var(--text);
 }
 
 .tags{
  display:flex;
- gap:8px;
+ gap:7px;
  flex-wrap:wrap;
 }
 
 .tag{
- background:rgba(76,201,240,0.15);
- color:#7dd3fc;
- padding:4px 10px;
+ background:rgba(63,143,111,0.1);
+ color:#2c6e53;
+ padding:3px 10px;
  border-radius:999px;
- font-size:0.72rem;
+ font-size:0.68rem;
+ font-weight:600;
 }
-.tag.tag-easy{
- background:rgba(74,222,128,0.18);
- color:#86efac;
-}
-.tag.tag-medium{
- background:rgba(250,204,21,0.18);
- color:#fde68a;
-}
-.tag.tag-hard{
- background:rgba(0,229,210,0.18);
- color:#5eead4;
-}
-.tag.tag-static{
- background:rgba(167,139,250,.18);
- color:#c4b5fd;
-}
-.tag.tag-implement{
- background:rgba(251,146,60,.18);
- color:#fdba74;
-}
+.tag.tag-easy{ background:rgba(74,222,128,0.16); color:#16803d; }
+.tag.tag-medium{ background:rgba(250,204,21,0.2); color:#946800; }
+.tag.tag-hard{ background:rgba(56,189,248,0.18); color:#0369a1; }
+.tag.tag-static{ background:rgba(139,111,168,.15); color:#6d5490; }
+.tag.tag-implement{ background:rgba(196,110,58,.15); color:#a3562a; }
 
-/* Desplegable "Extras" dentro de cada categoría */
 .extras-category {
   margin: 8px 0 4px 0;
-  border-radius: 10px;
-  border: 1px solid rgba(250,204,21,.3);
+  border-radius: 12px;
+  border: 1px solid rgba(201,138,75,.35);
   overflow: hidden;
 }
 .extras-category > .category-header {
-  background: rgba(250,204,21,.08);
-  padding: 11px 18px;
-  border-radius: 10px;
+  background: rgba(201,138,75,.07);
+  padding: 10px 16px;
+  border-radius: 12px;
   border-bottom: none;
 }
-.extras-category > .category-header:hover {
-  background: rgba(250,204,21,.18);
-}
-.extras-category > .category-content {
-  padding: 8px 8px 4px;
-  background: rgba(250,204,21,.03);
-}
-.extras-category.open > .category-header {
-  border-radius: 10px 10px 0 0;
-  border-bottom: 1px solid rgba(250,204,21,.2);
-}
+.extras-category > .category-header:hover { background: rgba(201,138,75,.15); }
+.extras-category > .category-content { padding: 0 8px; background: rgba(201,138,75,.03); }
+.extras-category.open > .category-content { padding: 8px 8px 4px; }
+.extras-category.open > .category-header { border-radius: 12px 12px 0 0; border-bottom: 1px solid rgba(201,138,75,.18); }
+
 .libro-category {
   margin: 8px 0 4px 0;
-  border-radius: 10px;
-  border: 1px solid rgba(99,102,241,.3);
+  border-radius: 12px;
+  border: 1px solid rgba(90,110,150,.3);
   overflow: hidden;
 }
 .libro-category > .category-header {
-  background: rgba(99,102,241,.1);
-  padding: 11px 18px;
-  border-radius: 10px;
+  background: rgba(90,110,150,.07);
+  padding: 10px 16px;
+  border-radius: 12px;
   border-bottom: none;
 }
-.libro-category > .category-header:hover {
-  background: rgba(99,102,241,.2);
-}
-.libro-category > .category-content {
-  padding: 8px 8px 4px;
-  background: rgba(99,102,241,.04);
-}
-.libro-category.open > .category-header {
-  border-radius: 10px 10px 0 0;
-  border-bottom: 1px solid rgba(99,102,241,.2);
-}
+.libro-category > .category-header:hover { background: rgba(90,110,150,.14); }
+.libro-category > .category-content { padding: 0 8px; background: rgba(90,110,150,.03); }
+.libro-category.open > .category-content { padding: 8px 8px 4px; }
+.libro-category.open > .category-header { border-radius: 12px 12px 0 0; border-bottom: 1px solid rgba(90,110,150,.16); }
 
-/* Flecha genérica — rota 180° cuando su contenedor tiene clase .open */
-.arrow{
- transition:transform 0.3s;
-}
+.arrow{ transition:transform 0.3s; }
 .open > .exercise-header > .arrow,
-.open > .category-header > .arrow {
- transform:rotate(180deg);
-}
+.open > .category-header > .arrow { transform:rotate(180deg); }
 
 .exercise-content{
- display:none;
- padding:0 20px 22px;
+ max-height: 0;
+ opacity: 0;
+ overflow: hidden;
+ padding: 0 19px;
+ transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.28s ease, padding 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+.exercise.open > .exercise-content{
+ opacity: 1;
+ padding: 0 19px 20px;
 }
 
 .exercise-description{
- color:#dbe5f0;
+ color:var(--text);
  line-height:1.7;
- margin-bottom:20px;
+ margin-bottom:18px;
+ font-size:0.94rem;
 }
 
 .actions{
  display:flex;
- gap:12px;
+ justify-content:center;
+ gap:10px;
  flex-wrap:wrap;
 }
 
 .btn{
  text-decoration:none;
- padding:12px 20px;
- border-radius:12px;
- font-weight:500;
- transition:0.25s;
+ padding:11px 20px;
+ border-radius:999px;
+ font-weight:600;
+ transition:0.2s;
  display:inline-flex;
  align-items:center;
  gap:8px;
- font-size:0.9rem;
- font-family:'Poppins', sans-serif;
+ font-size:0.86rem;
+ font-family:'Sora', sans-serif;
 }
 
 .btn-primary{
- background:linear-gradient(135deg, var(--primary), var(--secondary));
- color:white;
- box-shadow: 0 4px 15px rgba(76, 201, 240, 0.2);
+ background:var(--primary);
+ color:#fff;
+ box-shadow: 0 5px 14px rgba(63,143,111,0.25);
 }
 
 .btn-secondary{
- background:rgba(255,255,255,0.08);
- color:white;
- border:1px solid rgba(255,255,255,0.1);
+ background:var(--card2);
+ color:var(--text);
+ border:1px solid var(--border);
 }
 
 .btn:hover{
- transform:translateY(-2px);
- box-shadow: 0 6px 20px rgba(76, 201, 240, 0.3);
+ transform:translateY(-1px);
+ box-shadow: 0 7px 18px rgba(63,143,111,0.35);
 }
 
 .btn-secondary:hover{
- background:rgba(255,255,255,0.15);
- box-shadow: none;
+ background:#e0ede3;
+ box-shadow:none;
 }
 
 .apartado-footer-text{
  text-align:center;
- margin-top:25px;
+ margin-top:22px;
  color:var(--muted);
- font-size:0.95rem;
+ font-size:0.9rem;
 }
 
 .apartado-footer-text a{
  color: var(--primary);
- text-decoration: none;
+ text-decoration: underline;
  font-weight: 600;
- transition: 0.2s;
-}
-
-.apartado-footer-text a:hover{
- color: var(--secondary);
- text-shadow: 0 0 8px rgba(76, 201, 240, 0.6);
 }
 
 .main-footer{
  text-align:center;
  margin-top:60px;
  color:var(--muted);
- font-size:0.95rem;
- border-top: 1px solid rgba(255,255,255,0.05);
+ font-size:0.9rem;
+ border-top: 1px solid var(--border);
  padding-top: 30px;
 }
 
 @media(max-width:900px){
  .main-header h1{ font-size:2.6rem; }
- .apartado-header { padding: 25px 30px; }
- .apartado-content { padding: 10px 30px 30px 30px; }
- .apartado-header-title h2 { font-size: 1.7rem; }
+ .apartado-header { padding: 22px 26px; }
+ .apartado-content { padding: 0 26px; }
+ .biblioteca-apartado.apartado-open .apartado-content { padding: 10px 26px 26px 26px; }
+ .apartado-header-title h2 { font-size: 1.55rem; }
+ .apartado-arrow { right: 26px; }
+ .apartado-arrow-left { right: auto; left: 26px; }
 }
 
 @media(max-width:600px){
  body{ padding:20px 12px 60px; }
- .category-header{ padding:20px; }
- .exercise-header{ padding:16px; }
- .main-header h1{ font-size:2.2rem; }
- .apartado-header { padding: 20px; }
- .apartado-content { padding: 5px 15px 20px 15px; }
+ .category-header{ padding:16px; }
+ .exercise-header{ padding:14px; }
+ .main-header h1{ font-size:2.1rem; }
+ .apartado-header { padding: 18px; }
+ .apartado-arrow { right: 18px; }
+ .apartado-arrow-left { right: auto; left: 18px; }
+ .apartado-header-title { padding: 0 34px; }
 }
 
 
 .exercise-steps {
- background: rgba(76, 201, 240, 0.05);
+ background: rgba(63,143,111,0.05);
  border-left: 3px solid var(--primary);
  border-radius: 0 12px 12px 0;
- padding: 14px 16px;
- margin-bottom: 16px;
+ padding: 13px 16px;
+ margin-bottom: 15px;
 }
 
 .steps-title {
- font-size: 0.82rem;
- font-weight: 600;
+ font-family:'Sora', sans-serif;
+ font-size: 0.86rem;
+ font-weight: 700;
  color: var(--primary);
  text-transform: uppercase;
- letter-spacing: 0.08em;
- margin-bottom: 10px;
+ letter-spacing: 0.06em;
+ margin-bottom: 9px;
 }
 
 .exercise-steps p {
- color: #cdd8e8;
+ color: var(--text);
  font-size: 0.88rem;
  line-height: 1.6;
  margin-bottom: 6px;
 }
 
-.exercise-steps p:last-child {
- margin-bottom: 0;
-}
-
-.exercise-steps strong {
- color: var(--primary);
-}
+.exercise-steps p:last-child { margin-bottom: 0; }
+.exercise-steps strong { color: var(--primary); }
 
 .btn-pdf {
- background: rgba(76, 201, 240, 0.12);
+ background: rgba(63,143,111,0.1);
  color: var(--primary);
- border: 1px solid rgba(76, 201, 240, 0.3);
- padding: 8px 14px;
- border-radius: 10px;
- font-size: 0.82rem;
+ border: 1px solid rgba(63,143,111,0.3);
+ padding: 7px 13px;
+ border-radius: 999px;
+ font-size: 0.8rem;
  text-decoration: none;
  display: inline-flex;
  align-items: center;
  gap: 6px;
- font-weight: 500;
+ font-weight: 600;
  transition: 0.2s;
 }
 
 .btn-pdf:hover {
- background: rgba(76, 201, 240, 0.22);
+ background: rgba(63,143,111,0.2);
  border-color: var(--primary);
- transform: translateY(-1px);
- box-shadow: none;
 }
 
-
-/* ---- Objectives box ---- */
 .exercise-objectives-box {
- background: rgba(72, 149, 239, 0.07);
- border: 1px solid rgba(72, 149, 239, 0.22);
+ background: rgba(201,138,75,0.05);
+ border: 1px solid rgba(201,138,75,0.22);
  border-radius: 12px;
  padding: 13px 18px 11px;
  margin-bottom: 13px;
 }
 .exercise-objectives-box .obj-label {
- font-size: 0.7rem;
+ font-family:'Sora', sans-serif;
+ font-size: 0.75rem;
  font-weight: 700;
  color: var(--secondary);
  text-transform: uppercase;
- letter-spacing: 0.11em;
+ letter-spacing: 0.08em;
  margin-bottom: 9px;
 }
 .exercise-objectives-box ul {
@@ -530,22 +663,22 @@ body{
  gap: 5px;
 }
 .exercise-objectives-box ul li {
- color: #c5d5ee;
+ color: var(--text);
  font-size: 0.86rem;
  line-height: 1.5;
  padding-left: 18px;
  position: relative;
 }
 .exercise-objectives-box ul li::before {
- content: '→';
+ content: '🌿';
  position: absolute;
  left: 0;
- color: var(--secondary);
- font-size: 0.78rem;
+ font-size: 0.7rem;
  top: 2px;
 }
 
 </style>
+
 </head>
 <body>
 <div class="main-container">
@@ -555,6 +688,7 @@ body{
 </header>
 <section class="biblioteca-apartado" id="apartado-ejercicios-complementarios">
 <div class="apartado-header">
+<div class="apartado-arrow apartado-arrow-left">▼</div>
 <div class="apartado-header-title">
 <h2>💪 Ejercicios Complementarios</h2>
 <p>Biblioteca interactiva de ejercicios optimizados para nadadores (fuera del agua)</p>
@@ -590,7 +724,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/pull-ups" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 </div>
 </div>
@@ -612,7 +746,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/parralel-bar-dips?model=m" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 </div>
 </div>
@@ -642,7 +776,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/forearm-plank?model=m" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 </div>
 </div>
@@ -664,7 +798,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/supermans?model=m" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 </div>
 </div>
@@ -686,7 +820,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/hanging-knee-raises?model=m" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 <a class="btn btn-secondary" href="https://musclewiki.com/es-es/exercise/laying-leg-raises" target="_blank">
  🏠 Alternativa Suelo ↗
@@ -711,7 +845,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/slam?model=m" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 </div>
 </div>
@@ -733,7 +867,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/scissor-kick?model=m" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 </div>
 </div>
@@ -755,7 +889,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/elbow-plank-mountain-climber?model=m" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 </div>
 </div>
@@ -777,7 +911,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/bodyweight-russian-twist?model=m" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 </div>
 </div>
@@ -799,7 +933,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/hollow-hold?model=m" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 </div>
 </div>
@@ -829,7 +963,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/bodyweight-squat?model=m" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 </div>
 </div>
@@ -851,7 +985,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/forward-lunges?model=m" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 </div>
 </div>
@@ -873,7 +1007,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/calf-raises" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 </div>
 </div>
@@ -903,7 +1037,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/push-up?model=m" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 <a class="btn btn-secondary" href="https://musclewiki.com/es-es/exercise/bodyweight-knee-push-ups?model=m" target="_blank">
  🦵 Rodillas ↗
@@ -931,7 +1065,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/bodyweight-pike-press?model=m" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 </div>
 </div>
@@ -961,7 +1095,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/cobra-pose?model=m" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 </div>
 </div>
@@ -983,7 +1117,7 @@ body{
  </div>
 <div class="actions">
 <a class="btn btn-primary" href="https://musclewiki.com/es-es/exercise/thoracic-flexion-and-extensions?model=m" target="_blank">
- 📖 Ver guía animada en MuscleWiki ↗
+ 📖 Ver guía en MuscleWiki ↗
  </a>
 </div>
 </div>
@@ -1054,6 +1188,7 @@ body{
 </section>
 <section class="biblioteca-apartado" id="apartado-ejercicios-natacion">
 <div class="apartado-header">
+<div class="apartado-arrow apartado-arrow-left">▼</div>
 <div class="apartado-header-title">
 <h2>📖 Ejercicios de Natación</h2>
 <p>Ejercicios para mejorar y perfeccionar la técnica</p>
@@ -1078,8 +1213,8 @@ body{
 <span style="color:#fde047;">Intermedio</span>
 </span>
 <span style="display:flex;align-items:center;gap:7px;font-size:0.85rem;font-weight:500;">
-<span style="width:12px;height:12px;border-radius:50%;background:rgba(0,229,210,0.85);display:inline-block;box-shadow:0 0 6px rgba(0,229,210,0.5);"></span>
-<span style="color:#5eead4;">Difícil</span>
+<span style="width:12px;height:12px;border-radius:50%;background:rgba(56,189,248,0.85);display:inline-block;box-shadow:0 0 6px rgba(56,189,248,0.5);"></span>
+<span style="color:#7dd3fc;">Difícil</span>
 </span>
 </div>
 <div class="category" style="width: 100%;">
@@ -1115,7 +1250,7 @@ body{
 <div class="category libro-category"><div class="category-header">
 <span style="font-size:1.05rem;font-weight:700;">📖 Libro</span>
 <span class="arrow">▼</span>
-</div><div class="category-content" style="display:none;">
+</div><div class="category-content">
 <div class="exercise difficulty-easy">
 <div class="exercise-header">
 <div class="exercise-name">
@@ -1608,7 +1743,7 @@ body{
    <span style="font-size:1.05rem;font-weight:700;">⭐ Extras</span>
    <span class="arrow">▼</span>
   </div>
-  <div class="category-content" style="display:none;">
+  <div class="category-content">
    <!--
    ╔══════════════════════════════════════════════════════════════════════╗
    ║           GUÍA PARA AÑADIR EJERCICIOS EN EXTRAS                    ║
@@ -1947,7 +2082,7 @@ body{
 <div class="category libro-category"><div class="category-header">
 <span style="font-size:1.05rem;font-weight:700;">📖 Libro</span>
 <span class="arrow">▼</span>
-</div><div class="category-content" style="display:none;">
+</div><div class="category-content">
 <div class="exercise difficulty-easy">
 <div class="exercise-header">
 <div class="exercise-name">
@@ -2440,7 +2575,7 @@ body{
    <span style="font-size:1.05rem;font-weight:700;">⭐ Extras</span>
    <span class="arrow">▼</span>
   </div>
-  <div class="category-content" style="display:none;">
+  <div class="category-content">
    <!--
    ╔══════════════════════════════════════════════════════════════════════╗
    ║           GUÍA PARA AÑADIR EJERCICIOS EN EXTRAS                    ║
@@ -2613,7 +2748,7 @@ body{
 <div class="category libro-category"><div class="category-header">
 <span style="font-size:1.05rem;font-weight:700;">📖 Libro</span>
 <span class="arrow">▼</span>
-</div><div class="category-content" style="display:none;">
+</div><div class="category-content">
 <div class="exercise difficulty-easy">
 <div class="exercise-header">
 <div class="exercise-name">
@@ -3106,7 +3241,7 @@ body{
    <span style="font-size:1.05rem;font-weight:700;">⭐ Extras</span>
    <span class="arrow">▼</span>
   </div>
-  <div class="category-content" style="display:none;">
+  <div class="category-content">
    <!--
    ╔══════════════════════════════════════════════════════════════════════╗
    ║           GUÍA PARA AÑADIR EJERCICIOS EN EXTRAS                    ║
@@ -3217,7 +3352,7 @@ body{
 <div class="category libro-category"><div class="category-header">
 <span style="font-size:1.05rem;font-weight:700;">📖 Libro</span>
 <span class="arrow">▼</span>
-</div><div class="category-content" style="display:none;">
+</div><div class="category-content">
 <div class="exercise difficulty-easy">
 <div class="exercise-header">
 <div class="exercise-name">
@@ -3710,7 +3845,7 @@ body{
    <span style="font-size:1.05rem;font-weight:700;">⭐ Extras</span>
    <span class="arrow">▼</span>
   </div>
-  <div class="category-content" style="display:none;">
+  <div class="category-content">
    <!--
    ╔══════════════════════════════════════════════════════════════════════╗
    ║           GUÍA PARA AÑADIR EJERCICIOS EN EXTRAS                    ║
@@ -3819,6 +3954,7 @@ body{
  ==================================================== -->
 <section class="biblioteca-apartado" id="apartado-entrenamientos">
 <div class="apartado-header">
+<div class="apartado-arrow apartado-arrow-left">▼</div>
 <div class="apartado-header-title">
 <h2>🏋️ Entrenamientos</h2>
 <p>Sesiones estructuradas para mejorar tu rendimiento en el agua</p>
@@ -4279,13 +4415,13 @@ body{
 <!-- =====================================================
   BLOQUE: GENERADOR DE SESIONES
  ===================================================== -->
-<div class="biblioteca-apartado" id="apartado-generador" onclick="window.open('https://lightswan.github.io/Generador-de-sesiones/','_blank')" style="cursor:pointer;">
-<div class="apartado-header" style="pointer-events:none;">
+<div class="biblioteca-apartado" id="apartado-generador" onclick="window.open('https://lightswan.github.io/Generador-de-sesiones/','_blank')" style="cursor:pointer;-webkit-tap-highlight-color:transparent;">
+<div class="apartado-header" style="pointer-events:none;flex-direction:column;gap:16px;">
 <div class="apartado-header-title">
 <h2>⚡ Generador de Sesiones</h2>
 <p>Crea entrenamientos personalizados a partir de la biblioteca de natación</p>
 </div>
-<div class="apartado-arrow" style="font-size:1.3rem;color:var(--primary);display:flex;align-items:center;gap:10px;white-space:nowrap;">
+<div style="font-size:0.95rem;font-weight:700;color:var(--primary);display:flex;align-items:center;gap:8px;white-space:nowrap;background:var(--card2);border:1px solid var(--border);padding:9px 22px;border-radius:999px;">
     Abrir ↗
    </div>
 </div>
@@ -4295,9 +4431,17 @@ body{
  </footer>
 <!-- Botón instalar PWA -->
 <div style="text-align:center;padding:32px 24px 48px;">
-<button id="pwaInstallBtn" onmouseout="this.style.transform='';this.style.boxShadow='';this.style.animation='pwaGlow 2s infinite'" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 30px rgba(99,102,241,0.6)';this.style.animation='none'" style="display:none;align-items:center;gap:10px;padding:14px 28px;border-radius:999px;border:none;background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;box-shadow:0 0 0 0 rgba(99,102,241,0.5);animation:pwaGlow 2s infinite;letter-spacing:0.01em;">
+<button id="pwaInstallBtn" onmouseout="this.style.transform='';this.style.boxShadow='';this.style.animation='pwaGlow 2s infinite'" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 30px rgba(99,102,241,0.6)';this.style.animation='none'" style="display:none;align-items:center;gap:10px;padding:14px 28px;border-radius:999px;border:none;background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;box-shadow:0 0 0 0 rgba(99,102,241,0.5);animation:pwaGlow 2s infinite;letter-spacing:0.01em;">
      📲 Añadir app a pantalla de inicio
    </button>
+</div>
+<div class="theme-toggle-wrap">
+<button aria-label="Cambiar entre modo oscuro y modo claro" class="theme-toggle" id="theme-toggle-btn" title="Cambiar tema">
+ <span class="icon-moon">🌙</span>
+ <span class="icon-sun">☀️</span>
+ <span class="label-to-dark">Modo oscuro</span>
+ <span class="label-to-light">Modo claro</span>
+</button>
 </div>
 <style>
    @keyframes pwaGlow {
@@ -4316,7 +4460,56 @@ body{
    Nivel 3 → .exercise              (ficha individual de ejercicio o sesión)
  Cada nivel tiene su propio listener. stopPropagation en niveles 2 y 3
  evita que un click en un hijo dispare el handler del padre.
+
+ ANIMACIÓN: en lugar de alternar display:none/block (abrupto), se anima
+ max-height calculando la altura real del contenido (scrollHeight), lo
+ que permite una transición CSS suave sin necesidad de conocer la altura
+ de antemano. Al abrir/cerrar un nivel interno, se recalcula también la
+ altura de los ancestros abiertos para que no queden recortados.
  ============================================================ */
+
+// Aplica o retira el estado "abierto" a un bloque de contenido desplegable.
+// Al abrir, se anima hasta la altura exacta del contenido y, al terminar la
+// transición, se libera max-height a "none" para que el bloque quede
+// ajustado de forma natural (sin huecos si el contenido cambia de tamaño
+// por fuentes, redimensionado, etc.). Al cerrar, si estaba en "none" se fija
+// primero un valor en píxeles para poder animar hasta 0.
+function setContentOpen(content, isOpen) {
+  if (isOpen) {
+    content.style.maxHeight = content.scrollHeight + 'px';
+    content.addEventListener('transitionend', function onEnd(e) {
+      if (e.target !== content || e.propertyName !== 'max-height') return;
+      content.style.maxHeight = 'none';
+      content.removeEventListener('transitionend', onEnd);
+    });
+  } else {
+    if (content.style.maxHeight === 'none' || content.style.maxHeight === '') {
+      content.style.maxHeight = content.scrollHeight + 'px';
+      void content.offsetHeight; // fuerza reflow para fijar el valor antes de animar
+    }
+    requestAnimationFrame(() => {
+      content.style.maxHeight = '0px';
+    });
+  }
+}
+
+// Tras abrir/cerrar un nivel, reajusta al instante (sin animación) los
+// contenedores ancestros que estén abiertos, para que se adapten al nuevo
+// tamaño del contenido interno (evita recortes o huecos al anidar
+// desplegables). Al estar ya abiertos, basta con liberarlos a "none".
+function refreshOpenAncestors(startEl) {
+  let el = startEl.parentElement;
+  while (el) {
+    if (el.classList && (el.classList.contains('category-content') || el.classList.contains('apartado-content'))) {
+      const container = el.parentElement;
+      const openClass = el.classList.contains('apartado-content') ? 'apartado-open' : 'open';
+      if (container && container.classList.contains(openClass)) {
+        el.style.maxHeight = 'none';
+      }
+    }
+    el = el.parentElement;
+  }
+}
 
 // NIVEL 1 — Apartados principales
 // Abre/cierra los grandes bloques y rota su flecha .apartado-arrow
@@ -4325,7 +4518,7 @@ document.querySelectorAll('.apartado-header').forEach(header => {
     const apartado = header.parentElement;
     const content = apartado.querySelector('.apartado-content');
     apartado.classList.toggle('apartado-open');
-    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    setContentOpen(content, apartado.classList.contains('apartado-open'));
   });
 });
 
@@ -4337,7 +4530,8 @@ document.querySelectorAll('.category-header').forEach(header => {
     const category = header.parentElement;
     const content = category.querySelector('.category-content');
     category.classList.toggle('open');
-    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    setContentOpen(content, category.classList.contains('open'));
+    refreshOpenAncestors(category);
   });
 });
 
@@ -4355,11 +4549,31 @@ function bindExercises() {
       const exercise = header.closest('.exercise');
       const content = exercise.querySelector('.exercise-content');
       exercise.classList.toggle('open');
-      content.style.display = content.style.display === 'block' ? 'none' : 'block';
+      setContentOpen(content, exercise.classList.contains('open'));
+      refreshOpenAncestors(exercise);
     });
   });
 }
 bindExercises();
+
+// BOTÓN DE MODO OSCURO/CLARO
+// Cambia el atributo data-theme en <html> (el CSS hace el resto vía
+// variables) y guarda la preferencia en localStorage para recordarla
+// entre visitas.
+(function(){
+ const btn = document.getElementById('theme-toggle-btn');
+ if(!btn) return;
+ btn.addEventListener('click', () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if(isDark){
+   document.documentElement.removeAttribute('data-theme');
+   try{ localStorage.setItem('biblioteca-theme','light'); }catch(e){}
+  } else {
+   document.documentElement.setAttribute('data-theme','dark');
+   try{ localStorage.setItem('biblioteca-theme','dark'); }catch(e){}
+  }
+ });
+})();
 
 // Ocultar categorías "Extras" vacías (sin ningún .exercise dentro)
 document.querySelectorAll('.extras-category').forEach(cat => {
@@ -4386,11 +4600,11 @@ document.querySelectorAll('.apartado-search-input').forEach(input => {
       const content = category.querySelector('.category-content');
       if (term !== '') {
         category.style.display = matches > 0 ? 'block' : 'none';
-        if (matches > 0) { category.classList.add('open'); content.style.display = 'block'; }
+        if (matches > 0) { category.classList.add('open'); setContentOpen(content, true); }
       } else {
         category.style.display = 'block';
         category.classList.remove('open');
-        content.style.display = 'none';
+        setContentOpen(content, false);
       }
     });
   });
@@ -4477,7 +4691,7 @@ document.querySelectorAll('.apartado-search-input').forEach(input => {
     btn.style.display = "none";
     deferredPrompt = null;
     const toast = document.createElement("div");
-    toast.style.cssText = "position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#fff;font-family:'Poppins',sans-serif;font-size:15px;font-weight:600;padding:14px 28px;border-radius:999px;box-shadow:0 8px 30px rgba(99,102,241,0.5);z-index:9999;white-space:nowrap;opacity:0;transition:opacity .3s;";
+    toast.style.cssText = "position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#fff;font-family:'Sora',sans-serif;font-size:15px;font-weight:600;padding:14px 28px;border-radius:999px;box-shadow:0 8px 30px rgba(99,102,241,0.5);z-index:9999;white-space:nowrap;opacity:0;transition:opacity .3s;";
     toast.textContent = "✅ ¡App instalada correctamente!";
     document.body.appendChild(toast);
     requestAnimationFrame(() => { toast.style.opacity = "1"; });
